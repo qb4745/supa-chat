@@ -25,6 +25,7 @@ export class AuthService {
 
         this.currentUser.next(sess.user);
       } else {
+        console.log('SET USER TO FALSE');
         this.currentUser.next(false);
       }
     });
@@ -36,15 +37,21 @@ export class AuthService {
     if (this.currentUser.value) {
       console.log('ALREADY GOT USER');
       return;
+    } else {
+      console.log('NO USER, GETTING USER');
     }
+
     const user = await this.supabase.auth.getUser();
     console.log('🚀 ~ file: auth.service.ts ~ line 33 ~ AuthService ~ loadUser ~ session', user);
 
     if (user.data.user) {
+      console.log('aaaaaaaaaa');
       this.currentUser.next(user.data.user);
     } else {
+      console.log('bbbbbbbbbb');
       this.currentUser.next(false);
     }
+
   }
 
   signUp(credentials: { email; password }) {
